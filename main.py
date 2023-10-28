@@ -1,16 +1,49 @@
-# This is a sample Python script.
+import asyncio
+import logging
+import sys
+from os import getenv
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from aiogram import Bot, Dispatcher, F, Router, html
+from aiogram.enums import ParseMode
+from aiogram.filters import Command, CommandStart
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.types import (
+ KeyboardButton,
+ Message,
+ ReplyKeyboardMarkup,
+ ReplyKeyboardRemove,
+ )
+
+TOKEN = getenv("6266404942:AAFKyd6fYXjmbiwrBLLN3sYBN6-B9NpiBUI")
+
+form_router = Router()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+class States(StatesGroup):
+    start = State()
+
+    quit = State()
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('ReviewerBot')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+@form_router.message(CommandStart())
+async def command_start(message: Message, state: FSMContext) -> None:
+    await state.set_state(States.start)
+    await message.answer(
+    "Привет, как тебя зовут?",
+        reply_markup=ReplyKeyboardRemove(),
+)
+
+async def main():
+    bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
+    dp = Dispatcher()
+    dp.include_router(form_router)
+
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    asyncio.run(main())
