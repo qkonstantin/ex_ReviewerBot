@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import sys
-from os import getenv
+
 
 from aiogram import Bot, Dispatcher, F, Router, html
 from aiogram.enums import ParseMode
@@ -15,7 +15,7 @@ from aiogram.types import (
  ReplyKeyboardRemove,
  )
 
-TOKEN = getenv("6266404942:AAFKyd6fYXjmbiwrBLLN3sYBN6-B9NpiBUI")
+TOKEN = "6266404942:AAFKyd6fYXjmbiwrBLLN3sYBN6-B9NpiBUI"
 
 form_router = Router()
 
